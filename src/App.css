@@ -1,0 +1,23 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+html {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+}
+
+.title {
+    text-align: center;
+    color: lightskyblue;
+}
+.container {
+    display: grid;
+    width: 800px;
+    margin: auto;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(1, 200px);
+    grid-gap: 1em;
+}
+
+.container div:nth-child(n) {
+    border: 2px solid lightskyblue;
+    background-color: whitesmoke;
+}

@@ -1,0 +1,24 @@
+.weather-box {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 3fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.weather-box header {
+    grid-column: 1;
+    grid-row: 1 / 2;
+}
+
+.weather-box img {
+    display: block;
+    margin: auto;
+    grid-column: 1;
+    grid-row: 2 / 4;
+}
+
+.weather-box footer {
+    grid-column: 1;
+    grid-row: 4 / 5;
+}
