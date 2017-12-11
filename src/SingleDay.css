@@ -1,0 +1,29 @@
+.single-day-container {
+    display: grid;
+    width: 800px;
+    margin: 4% auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr; 
+    grid-gap: 0.5em;
+    align-items: center;
+    justify-items: start;
+}
+
+.single-day-container h2 {
+    background: whitesmoke;
+}
+
+.single-day-container div {
+    background: whitesmoke;
+}
+
+th {
+    padding: 0.5em;
+    border: 2px solid lightskyblue;
+    background-color:darksalmon;
+}
+
+td {
+    padding: 0.5em;
+    border: 2px solid lightskyblue;
+}

@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
-import WeatherBox from './WeatherBox.js';
 
-import sun from './images/sun.png';
-import clouds from './images/clouds.png';
-import drop from './images/drop.png';
-import lightning from './images/lightning.png';
+import WeatherBox from './WeatherBox.js';
+import SingleDayInfoContainer from './SingleDayInfoContainer.js';
+
+import sun from './images/sun.png'; //Clear
+import clouds from './images/clouds.png'; //Clouds
+import lightning from './images/lightning.png'; //Thunderstrom
 import partlySunny from './images/partlysunny.png';
-import storm from './images/storm.png';
-import snowflake from './images/snowflake.png';
-import wind from './images/wind.png';
+import storm from './images/storm.png'; //Rain
+import snowflake from './images/snowflake.png'; //Snow
+import wind from './images/wind.png'; //Additional, description breeze
 
 const DATA = [
   {id: 1, day: 'Monday', highestTemp: 21, lowestTemp: 17, weatherImage: partlySunny},
   {id: 2, day: 'Tuesday', highestTemp: 20, lowestTemp: 18, weatherImage: clouds},
   {id: 3, day: 'Wednesday', highestTemp: 22, lowestTemp: 18, weatherImage: sun},
   {id: 4, day: 'Thursday', highestTemp: 19, lowestTemp: 15, weatherImage: clouds},
-  {id: 5, day: 'Friday', highestTemp: 19, lowestTemp: 14, weatherImage: drop},
+  {id: 5, day: 'Friday', highestTemp: 19, lowestTemp: 14, weatherImage: storm},
 ]
 
 class App extends Component {
@@ -33,6 +34,7 @@ class App extends Component {
         <div className="container">
           {this.renderWeatherBoxes()}
         </div>
+        <SingleDayInfoContainer />
       </div>
     );
   }
