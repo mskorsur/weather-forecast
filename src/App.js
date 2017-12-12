@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './App.css';
 
 import WeatherBox from './WeatherBox.js';
@@ -12,7 +13,8 @@ import storm from './images/storm.png'; //Rain
 import snowflake from './images/snowflake.png'; //Snow
 import wind from './images/wind.png'; //Additional
 
-import exampleData from './exampleData.js';
+const API_KEY = '8f0699dbe43aa56965f371ac279724f7';
+const CITY_ID = '3190261';
 
 class App extends Component {
   constructor(props){
@@ -31,13 +33,23 @@ class App extends Component {
   }
 
   componentWillMount() {
-    let parsedData = this.parseWeatherData(exampleData);
-    let noonData = this.getNoonWeather(parsedData);
+     let parsedData = [];
+     let noonData = [];
 
-    this.setState({
-      weatherData: parsedData,
-      weatherBoxesData: noonData,
+    axios.get(`https://api.openweathermap.org/data/2.5/forecast?id=${CITY_ID}&APPID=${API_KEY}&units=metric`)
+    .then(response => {
+      parsedData = this.parseWeatherData(response.data.list);
+      noonData = this.getNoonWeather(parsedData);
+
+      this.setState({
+        weatherData: parsedData,
+        weatherBoxesData: noonData,
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
     });
+
   }
 
   parseWeatherData(data) {
