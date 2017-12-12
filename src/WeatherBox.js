@@ -4,7 +4,7 @@ import './WeatherBox.css';
 class WeatherBox extends React.Component {
     render() {
         return (
-            <div className="weather-box">
+            <div className={this.applyClass()}>
                 <header>
                     {this.props.weekDay}
                 </header>
@@ -16,8 +16,17 @@ class WeatherBox extends React.Component {
         );
     }
 
-    handleClick = e => {
+    handleClick = () => {
         this.props.handleSelect(this.props.weekDay);
+    }
+
+    applyClass = () => {
+       if (this.props.selectedDay === this.props.weekDay) {
+           return "weather-box selected";
+       }
+       else {
+           return "weather-box not-selected";
+       }
     }
 }
 

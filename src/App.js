@@ -90,7 +90,8 @@ class App extends Component {
                          highestTemp={item.temp_max} 
                          lowestTemp={item.temp_min}
                          weatherImage={this.selectImageBasedOnWeather(item.status, item.status_desc)}
-                         handleSelect={this.handleClickWeatherBox}/>
+                         handleSelect={this.handleClickWeatherBox}
+                         selectedDay={this.state.currentlySelectedDay}/>
     });
   }
 
