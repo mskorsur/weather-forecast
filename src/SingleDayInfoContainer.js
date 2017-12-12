@@ -16,14 +16,16 @@ class SingleDayInfoContainer extends React.Component {
             <h2>{this.props.data[0].day} - {this.props.data[0].date.toDateString()}</h2>
             <div>
                 <table>
-                    <tr>
-                      <th>Time</th>
-                      <th>Status</th>
-                      <th>Temperature &deg;C</th>
-                      <th>Pressure Pa</th>
-                      <th>Humidity %</th>
-                      <th>Wind m/s</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Temperature &deg;C</th>
+                        <th>Pressure Pa</th>
+                        <th>Humidity %</th>
+                        <th>Wind m/s</th>
+                        </tr>
+                    </thead>
                     {this.renderInfoItems()}
                   </table>
             </div>  
