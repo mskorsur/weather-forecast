@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { getDayFromDate}  from './dateHelper.js';
 import './App.css';
 
 import WeatherBox from './WeatherBox.js';
@@ -56,7 +57,7 @@ class App extends Component {
     return data.map(item => {
         return {
             date: new Date(item.dt_txt),
-            day: this.getDayFromDate(new Date(item.dt_txt)),
+            day: getDayFromDate(new Date(item.dt_txt)),
             hour: new Date(item.dt_txt).getHours(),
             temperature: item.main.temp,
             temp_max: item.main.temp_max,
@@ -68,11 +69,6 @@ class App extends Component {
             wind: item.wind.speed
         }
     });
-  }
-
-  getDayFromDate = (date) => {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return days[date.getDay()];
   }
 
   getNoonWeather = (data) => {
