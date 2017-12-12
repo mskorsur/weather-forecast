@@ -7,24 +7,68 @@ import SingleDayInfoContainer from './SingleDayInfoContainer.js';
 import sun from './images/sun.png'; //Clear
 import clouds from './images/clouds.png'; //Clouds
 import lightning from './images/lightning.png'; //Thunderstrom
-import partlySunny from './images/partlysunny.png';
+import partlySunny from './images/partlysunny.png'; //Clouds, description few clouds
 import storm from './images/storm.png'; //Rain
 import snowflake from './images/snowflake.png'; //Snow
-import wind from './images/wind.png'; //Additional, description breeze
+import wind from './images/wind.png'; //Additional
 
-const DATA = [
-  {id: 1, day: 'Monday', highestTemp: 21, lowestTemp: 17, weatherImage: partlySunny},
-  {id: 2, day: 'Tuesday', highestTemp: 20, lowestTemp: 18, weatherImage: clouds},
-  {id: 3, day: 'Wednesday', highestTemp: 22, lowestTemp: 18, weatherImage: sun},
-  {id: 4, day: 'Thursday', highestTemp: 19, lowestTemp: 15, weatherImage: clouds},
-  {id: 5, day: 'Friday', highestTemp: 19, lowestTemp: 14, weatherImage: storm},
-]
+import exampleData from './exampleData.js';
 
 class App extends Component {
   constructor(props){
     super(props);
 
+    this.state = {
+      weatherData: [],
+      weatherBoxesData: [],
+      isDaySelected: false,
+      currentlySelectedDay: ''
+    }
+
     this.renderWeatherBoxes = this.renderWeatherBoxes.bind(this);
+    this.renderSelectedDayInformation = this.renderSelectedDayInformation.bind(this);
+    this.parseWeatherData = this.parseWeatherData.bind(this);
+  }
+
+  componentWillMount() {
+    let parsedData = this.parseWeatherData(exampleData);
+    let noonData = this.getNoonWeather(parsedData);
+
+    this.setState({
+      weatherData: parsedData,
+      weatherBoxesData: noonData,
+    });
+  }
+
+  parseWeatherData(data) {
+    return data.map(item => {
+        return {
+            date: new Date(item.dt_txt),
+            day: this.getDayFromDate(new Date(item.dt_txt)),
+            hour: new Date(item.dt_txt).getHours(),
+            temperature: item.main.temp,
+            temp_max: item.main.temp_max,
+            temp_min: item.main.temp_min,
+            pressure: item.main.pressure,
+            humidity: item.main.humidity,
+            status: item.weather[0].main,
+            status_desc: item.weather[0].description,
+            wind: item.wind.speed
+        }
+    });
+  }
+
+  getDayFromDate = (date) => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[date.getDay()];
+  }
+
+  getNoonWeather = (data) => {
+    return data.filter(item => item.hour === 12);
+  }
+
+  getWeatherSameDay = (day, data) => {
+    return data.filter(item => item.day === day);
   }
 
   render() {
@@ -34,19 +78,58 @@ class App extends Component {
         <div className="container">
           {this.renderWeatherBoxes()}
         </div>
-        <SingleDayInfoContainer />
+        {this.renderSelectedDayInformation()}
       </div>
     );
   }
 
   renderWeatherBoxes() {
-    return DATA.map(day => {
-      return <WeatherBox key={day.id} 
-                         weekDay={day.day} 
-                         highestTemp={day.highestTemp} 
-                         lowestTemp={day.lowestTemp}
-                         weatherImage={day.weatherImage}/>
+    return this.state.weatherBoxesData.map(item => {
+      return <WeatherBox key={item.date} 
+                         weekDay={item.day} 
+                         highestTemp={item.temp_max} 
+                         lowestTemp={item.temp_min}
+                         weatherImage={this.selectImageBasedOnWeather(item.status, item.status_desc)}
+                         handleSelect={this.handleClickWeatherBox}/>
     });
+  }
+
+  renderSelectedDayInformation() {
+    if (this.state.isDaySelected) {
+      const singleDayData = 
+            this.getWeatherSameDay(this.state.currentlySelectedDay, this.state.weatherData);
+      return <SingleDayInfoContainer data={singleDayData}/>;
+    }
+  }
+
+  handleClickWeatherBox = (selectedDay) => {
+    this.setState({
+      isDaySelected: true,
+      currentlySelectedDay: selectedDay
+    });
+  }
+
+  selectImageBasedOnWeather = (weatherStatus, weatherDescription) => {
+    switch(weatherStatus) {
+      case 'Clear':
+        return sun;
+      case 'Rain':
+        return storm;
+      case 'Thunderstorm':
+        return lightning;
+      case 'Snow':
+        return snowflake;
+      case 'Additional':
+        return wind;
+      case 'Clouds':
+        if (weatherDescription === 'few clouds' || 
+            weatherDescription === 'scattered clouds') {
+              return partlySunny;
+        }
+        else {
+          return clouds;
+        }
+    }
   }
 
 }

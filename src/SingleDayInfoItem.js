@@ -4,7 +4,7 @@ class SingleDayInfoItem extends React.Component {
     render() {
         return (
           <tr>
-            <td>{this.props.time}</td>
+            <td>{this.props.time}:00</td>
             <td>{this.props.status}</td>
             <td>{this.props.temp}</td>
             <td>{this.props.pressure}</td>
