@@ -16,8 +16,3 @@ html {
     grid-template-rows: repeat(1, 200px);
     grid-gap: 1em;
 }
-
-.container div:nth-child(n) {
-    border: 2px solid lightskyblue;
-    background-color: whitesmoke;
-}
