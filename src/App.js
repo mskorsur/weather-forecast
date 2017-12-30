@@ -93,15 +93,42 @@ class App extends Component {
 
   renderWeatherBoxes() {
     return this.state.weatherBoxesData.map(item => {
+      const weatherSameDay = this.getWeatherSameDay(item.day, this.state.weatherData);
+      const tempMax = this.determineMaximumDayTemperature(weatherSameDay);
+      const tempMin = this.determineMinimumDayTemperature(weatherSameDay);
+
       return <WeatherBox key={item.date} 
                          weekDay={item.day} 
-                         highestTemp={item.temp_max} 
-                         lowestTemp={item.temp_min}
+                         highestTemp={tempMax} 
+                         lowestTemp={tempMin}
                          weatherImage={this.selectImageBasedOnWeather(item.status, item.status_desc)}
                          handleSelect={this.handleClickWeatherBox}
                          selectedDay={this.state.currentlySelectedDay}/>
     });
   }
+
+  determineMaximumDayTemperature = (data) => {
+    let tempMax = 0;
+    data.forEach(item => {
+      if (item.temp_max > tempMax) {
+        tempMax = item.temp_max;
+      }
+    });
+
+    return tempMax;
+  }
+  
+  determineMinimumDayTemperature = (data) => {
+    let tempMin = 40;
+    data.forEach(item => {
+      if (item.temp_min < tempMin) {
+        tempMin = item.temp_min;
+      }
+    });
+
+    return tempMin;
+  }
+
 
   renderSelectedDayInformation() {
     if (this.state.isDaySelected) {
